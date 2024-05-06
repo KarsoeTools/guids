@@ -26,6 +26,7 @@ jobs:
     - name: Clone Repository
       run: |
         git clone ${{ env.REPOSITORY }}
+        pwd
         tree
         
     # - name: Install yq

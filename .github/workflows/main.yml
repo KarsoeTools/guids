@@ -28,7 +28,7 @@ jobs:
           --file ./dockerfile
           --platform linux/arm64\
           --tag ${{ env.REGISTRY }}/karsoekube/arm-guids:${{ github.run_number }}\
-          --load
+          --load .
         docker push ${{ env.REGISTRY }}/karsoekube/arm-guids:${{ github.run_number }}
 
     - name: Clone Repository

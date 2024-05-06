@@ -35,7 +35,7 @@ jobs:
     #     yq -i '.spec.template.spec.containers[0].image = "harbor.example.com/chaturmail/chaturmail-backend:${{ github.run_number }}"' 'argocd-configs/chaturmail-pod.yaml'
     - name: UpdateRefile
       run: |
-        echo "${{ github.run_number }}"> ./apps/${{ env.PROJECT }}/${{ env.GITHUB_BASE_REF }}.imageref.txt
+        echo "${{ github.run_number }}"> ./apps/${{ env.PROJECT }}/${{ GITHUB_BASE_REF }}.imageref.txt
     - name: Push to Repo
       run: |
         git config --global user.name "${{secrets.USERNAME_GITHUB}}"

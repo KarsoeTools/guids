@@ -23,11 +23,11 @@ jobs:
         docker buildx create --use
     - name: BuildAndPushImageOnHarbor
       run: |
-        docker buildx build \          
+        docker buildx build ./\          
           --platform linux/arm64\
           --tag ${{ env.REGISTRY }}/karsoekube/arm-guids:${{ github.run_number }}\
-          --push ./
-        # docker push ${{ env.REGISTRY }}/karsoekube/arm-guids:${{ github.run_number }}
+          --load
+        docker push ${{ env.REGISTRY }}/karsoekube/arm-guids:${{ github.run_number }}
 
     - name: Clone Repository
       run: |

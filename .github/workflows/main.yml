@@ -4,7 +4,8 @@ on:
   push:
     branches: [ "main" ]
 env: 
-  REGISTRY: https://harbor.kube.karsoehome.dk/
+  REGISTRY: harbor.kube.karsoehome.dk
+  
 jobs:
   build:
     runs-on: ubuntu-latest

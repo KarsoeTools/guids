@@ -20,7 +20,7 @@ jobs:
     - name: BuildAndPushImageOnHarbor
       run: |
         docker build ./ -t ${{ env.REGISTRY }}/karsoekube/arm-guids:${{ github.run_number }}
-        docker push ${{ env.REGISTRY }}/ckarsoekube/arm-guids:${{ github.run_number }}
+        docker push ${{ env.REGISTRY }}/karsoekube/arm-guids:${{ github.run_number }}
 
     - name: Clone Repository
       run: |

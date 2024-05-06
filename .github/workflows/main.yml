@@ -46,4 +46,4 @@ jobs:
         cd ./picluster
         git add .
         git commit -m "Updated by GitHub Actions"
-        git push https://jennermand:${{ env.PASSWORD_GITHUB}}@github.com/jennermand/picluster --all
+        git push https://jennermand:${{ secrets.PASSWORD_GITHUB}}@github.com/jennermand/picluster --all

@@ -24,6 +24,7 @@ jobs:
     - name: BuildAndPushImageOnHarbor
       run: |
         docker buildx build . \          
+          --file dockerfile
           --platform linux/arm64\
           --tag ${{ env.REGISTRY }}/karsoekube/arm-guids:${{ github.run_number }}\
           --load

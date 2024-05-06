@@ -12,15 +12,15 @@ jobs:
     steps:
     - uses: docker/login-action@v1
       with:
-        registry: $REGISTRY
+        registry: ${{ env.REGISTRY }}
         username: ${{ secrets.HARBOR_USERNAME  }}
         password: ${{ secrets.HARBOR_PASSWORD }}
 
     - uses: actions/checkout@v3
     - name: BuildAndPushImageOnHarbor
       run: |
-        docker build ./ -t $REGISTRY/chaturmail/chaturmail-backend:${{ github.run_number }}
-        docker push $REGISTRY/chaturmail/chaturmail-backend:${{ github.run_number }}
+        docker build ./ -t ${{ env.REGISTRY }}/chaturmail/chaturmail-backend:${{ github.run_number }}
+        docker push ${{ env.REGISTRY }}/chaturmail/chaturmail-backend:${{ github.run_number }}
 
     - name: Clone Repository
       run: |

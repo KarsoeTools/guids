@@ -5,7 +5,7 @@ COPY . .
 RUN npm install ng
 RUN npm run build --prod
 
-FROM nginx:alpine
+FROM arm64v8/nginx:latest
 COPY --from=node /app/dist/guids /usr/share/nginx/html
 COPY --from=node /app/nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 8080

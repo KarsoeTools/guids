@@ -25,7 +25,7 @@ jobs:
 
     - name: Clone Repository
       run: |
-        git clone ${{ env.REPOSITORY }}
+        git clone https://${{ env.REPOSITORY }}
         pwd
         tree
         

@@ -46,4 +46,4 @@ jobs:
         cd ./picluster
         git add .
         git commit -m "Updated by GitHub Actions"
-        git push ${{ env.REPOSITORY }} --all
+        git push --all

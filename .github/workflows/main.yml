@@ -19,8 +19,8 @@ jobs:
     - uses: actions/checkout@v3
     - name: BuildAndPushImageOnHarbor
       run: |
-        docker build ./ -t ${{ env.REGISTRY }}/chaturmail/chaturmail-backend:${{ github.run_number }}
-        docker push ${{ env.REGISTRY }}/chaturmail/chaturmail-backend:${{ github.run_number }}
+        docker build ./ -t ${{ env.REGISTRY }}/karsoekube/arm-guids:${{ github.run_number }}
+        docker push ${{ env.REGISTRY }}/ckarsoekube/arm-guids:${{ github.run_number }}
 
     - name: Clone Repository
       run: |

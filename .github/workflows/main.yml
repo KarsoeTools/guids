@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
 env: 
   REGISTRY: harbor.kube.karsoehome.dk
-  REPOSITORY: https://github.com/jennermand/picluster
+  REPOSITORY: github.com/jennermand/picluster.git
   PROJECT: guids
 jobs:
   build:
@@ -46,4 +46,4 @@ jobs:
         cd ./picluster
         git add .
         git commit -m "Updated by GitHub Actions"
-        git push https://jennermand:${{ secrets.PASSWORD_GITHUB}}@github.com/jennermand/picluster --all
+        git push ${{ secrets.TOKEN}}@github.com/jennermand/picluster --all

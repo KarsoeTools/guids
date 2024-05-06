@@ -5,7 +5,8 @@ on:
     branches: [ "main" ]
 env: 
   REGISTRY: harbor.kube.karsoehome.dk
-  
+  REPOSITORY: https://github.com/jennermand/picluster
+  PROJECT: guids
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -24,15 +25,17 @@ jobs:
 
     - name: Clone Repository
       run: |
-        git clone <argocd-config-repo-url>
-    - name: Install yq
+        git clone ${{ env.REPOSITORY }}
+    # - name: Install yq
+    #   run: |
+    #     sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+    #     sudo chmod a+x /usr/local/bin/yq
+    # - name: Update YAML File
+    #   run: |
+    #     yq -i '.spec.template.spec.containers[0].image = "harbor.example.com/chaturmail/chaturmail-backend:${{ github.run_number }}"' 'argocd-configs/chaturmail-pod.yaml'
+    - name: UpdateRefile
       run: |
-        sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
-        sudo chmod a+x /usr/local/bin/yq
-    - name: Update YAML File
-      run: |
-        yq -i '.spec.template.spec.containers[0].image = "harbor.example.com/chaturmail/chaturmail-backend:${{ github.run_number }}"' 'argocd-configs/chaturmail-pod.yaml'
-
+        echo "${{ github.run_number }}"> ./apps/${{ env.project }}/{${ env.GITHUB_BASE_REF }}.imageref.txt
     - name: Push to Repo
       run: |
         git config --global user.name "${{secrets.USERNAME_GITHUB}}"

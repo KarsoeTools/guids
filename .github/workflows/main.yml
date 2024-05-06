@@ -26,8 +26,8 @@ jobs:
         docker buildx build \          
           --platform linux/arm64\
           --tag ${{ env.REGISTRY }}/karsoekube/arm-guids:${{ github.run_number }} \
-          ./
-        docker push ${{ env.REGISTRY }}/karsoekube/arm-guids:${{ github.run_number }}
+          --push .
+        # docker push ${{ env.REGISTRY }}/karsoekube/arm-guids:${{ github.run_number }}
 
     - name: Clone Repository
       run: |

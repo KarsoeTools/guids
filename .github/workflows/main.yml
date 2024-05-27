@@ -4,7 +4,7 @@ on:
   push:
     branches: [ "main" ]
 env: 
-  REGISTRY: harbor.kube.karsoehome.dk
+  REGISTRY: harbor.mongodb.dk
   REPOSITORY: github.com/jennermand/picluster.git
   PROJECT: guids
 jobs:

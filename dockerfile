@@ -1,5 +1,5 @@
 
-FROM arm64v8/node:16-bullseye as node
+FROM node:16-alpine as node
 WORKDIR /app
 COPY . .
 RUN npm install ng

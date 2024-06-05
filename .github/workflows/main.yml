@@ -3,49 +3,75 @@ name: BuildAndPushImageOnHarborAndUpdateArgoCDConfig
 on:
   push:
     branches: [ "main" ]
-env: 
+env:
   REGISTRY: harbor.mongodb.dk
-  REPOSITORY: github.com/jennermand/picluster.git
-  PROJECT: guids
+ 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: docker/login-action@v1
-      with:
-        registry: ${{ env.REGISTRY }}
-        username: ${{ secrets.HARBOR_USERNAME  }}
-        password: ${{ secrets.HARBOR_PASSWORD }}
+   
+  harbor:    
+    uses: KarsoeTools/actionTemplates/.github/workflows/angular.yaml@main    
+    with:
+      registry: harbor.mongodb.dk
+      run_number: ${{ github.run_number }}
+      IMAGE_NAME: karsoekube/arm-guids
+      PROJECT: guids
+      REPOSITORY: github.com/jennermand/picluster.git
+      branch: ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
+    secrets:
+      username: ${{ secrets.HARBOR_USERNAME  }}
+      password: ${{ secrets.HARBOR_PASSWORD }}
+      token: ${{ secrets.TOKEN }}
+      username_github: ${{secrets.USERNAME_GITHUB}}
+      email_github: ${{secrets.EMAIL_GITHUB}}
 
-    - uses: actions/checkout@v3
-    - name: Set up Docker Buildx
-      run: |
-        docker buildx create --use
-    - name: BuildAndPushImageOnHarbor
-      run: |
-        pwd
-        docker buildx build --file ./dockerfile --platform linux/arm64 --tag ${{ env.REGISTRY }}/karsoekube/arm-guids:${{ github.run_number }} --push .
-        # docker push ${{ env.REGISTRY }}/karsoekube/arm-guids:${{ github.run_number }}
+# name: BuildAndPushImageOnHarborAndUpdateArgoCDConfig
 
-    - name: Clone Repository
-      run: |
-        git clone https://${{ secrets.TOKEN}}@${{ env.REPOSITORY }}
+# on:
+#   push:
+#     branches: [ "main" ]
+# env: 
+#   REGISTRY: harbor.mongodb.dk
+#   REPOSITORY: github.com/jennermand/picluster.git
+#   PROJECT: guids
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - uses: docker/login-action@v1
+#       with:
+#         registry: ${{ env.REGISTRY }}
+#         username: ${{ secrets.HARBOR_USERNAME  }}
+#         password: ${{ secrets.HARBOR_PASSWORD }}
+
+#     - uses: actions/checkout@v3
+#     - name: Set up Docker Buildx
+#       run: |
+#         docker buildx create --use
+#     - name: BuildAndPushImageOnHarbor
+#       run: |
+#         pwd
+#         docker buildx build --file ./dockerfile --platform linux/arm64 --tag ${{ env.REGISTRY }}/karsoekube/arm-guids:${{ github.run_number }} --push .
+#         # docker push ${{ env.REGISTRY }}/karsoekube/arm-guids:${{ github.run_number }}
+
+#     - name: Clone Repository
+#       run: |
+#         git clone https://${{ secrets.TOKEN}}@${{ env.REPOSITORY }}
                 
-    # - name: Install yq
-    #   run: |
-    #     sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
-    #     sudo chmod a+x /usr/local/bin/yq
-    # - name: Update YAML File
-    #   run: |
-    #     yq -i '.spec.template.spec.containers[0].image = "harbor.example.com/chaturmail/chaturmail-backend:${{ github.run_number }}"' 'argocd-configs/chaturmail-pod.yaml'
-    - name: UpdateRefFile
-      run: |
-        echo "${{ github.run_number }}"> ./picluster/apps/${{ env.PROJECT }}/${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}.imageref.txt
-    - name: Push to Repo
-      run: |
-        git config --global user.name "${{secrets.USERNAME_GITHUB}}"
-        git config --global user.email "${{secrets.EMAIL_GITHUB}}"
-        cd ./picluster
-        git add .
-        git commit -m "Updated by GitHub Actions"
-        git push https://${{ secrets.TOKEN}}@${{ env.REPOSITORY }} --all
+#     # - name: Install yq
+#     #   run: |
+#     #     sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+#     #     sudo chmod a+x /usr/local/bin/yq
+#     # - name: Update YAML File
+#     #   run: |
+#     #     yq -i '.spec.template.spec.containers[0].image = "harbor.example.com/chaturmail/chaturmail-backend:${{ github.run_number }}"' 'argocd-configs/chaturmail-pod.yaml'
+#     - name: UpdateRefFile
+#       run: |
+#         echo "${{ github.run_number }}"> ./picluster/apps/${{ env.PROJECT }}/${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}.imageref.txt
+#     - name: Push to Repo
+#       run: |
+#         git config --global user.name "${{secrets.USERNAME_GITHUB}}"
+#         git config --global user.email "${{secrets.EMAIL_GITHUB}}"
+#         cd ./picluster
+#         git add .
+#         git commit -m "Updated by GitHub Actions"
+#         git push https://${{ secrets.TOKEN}}@${{ env.REPOSITORY }} --all

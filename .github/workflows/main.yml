@@ -1,14 +1,15 @@
 name: BuildAndPushImageOnHarborAndUpdateArgoCDConfig
+
 on:
   push:
     branches: [ "main" ]
 env:
   REGISTRY: harbor.mongodb.dk
- 
+
 jobs:
-   
-  harbor:    
-    uses: KarsoeTools/actionTemplates/.github/workflows/angular.yaml@main    
+
+  harbor:
+    uses: KarsoeTools/actionTemplates/.github/workflows/angular.yaml@main
     with:
       registry: harbor.mongodb.dk
       run_number: ${{ github.run_number }}
